@@ -7,17 +7,6 @@ import {Component} from '@angular/core';
 })
 export class MainComponent {
 
-  numbers: number[];
-  colors: string[];
-  names: string[];
-
-  stringInput: string;
-
   constructor() {
-    this.numbers = [1, 2, 3, 4, 5];
-    this.colors = ['red', 'green', 'blue'];
-    this.names = ['John', 'Bill', 'James'];
-
-    this.stringInput = '';
   }
 }
