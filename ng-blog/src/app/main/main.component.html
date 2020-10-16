@@ -1,69 +1,15 @@
-<h1 class="text-primary">H1 Heading</h1>
+<div class="container">
 
-<h2>H2 Heading</h2>
+  <div class="row">
+    <div class="col-md-12">
+      <app-table-view></app-table-view>
+    </div>
+  </div>
 
-<h3>H3 Heading</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <app-card-list-view></app-card-list-view>
+    </div>
+  </div>
 
-<ul>
-  <ng-container *ngFor="let number of numbers">
-    <li *ngIf="number % 2 === 0">{{number}}</li>
-  </ng-container>
-</ul>
-
-
-<ul>
-  <ng-container *ngFor="let number of numbers">
-    <li [ngSwitch]="number % 2">
-      <span *ngSwitchCase="0">This number is even</span>
-      <span *ngSwitchDefault>This number is odd</span>
-    </li>
-  </ng-container>
-</ul>
-
-
-<ul>
-  <ng-container *ngFor="let number of numbers">
-    <li *ngIf="number % 2 === 0; else oddBlockRef">
-      <span>This number is even</span>
-    </li>
-  </ng-container>
-</ul>
-
-<ng-template #oddBlockRef>
-  <span>This number is odd</span>
-</ng-template>
-
-<hr>
-
-<ol>
-  <li *ngFor="let color of colors">
-    <span [ngStyle]="{'color': color}">{{color}}</span>
-  </li>
-</ol>
-
-<ol>
-  <li *ngFor="let color of colors">
-    <span [ngStyle]="{'color': color !== 'green' ? 'pink' : 'yellow'}">{{color}}</span>
-  </li>
-</ol>
-
-<hr>
-
-<ol>
-  <li *ngFor="let name of names">
-<!--    <span class="active">{{name}}</span>-->
-<!--    <span [class.active]="name === 'Bill'">{{name}}</span>-->
-    <span [ngClass]="{'active': name === 'Bill', 'text-success': true}">{{name}}</span>
-  </li>
-</ol>
-
-<hr>
-
-<h2>Two-way binding</h2>
-<div>
-  <input type="text" [(ngModel)]="stringInput">
-</div>
-
-<div>
-  Result after change: {{stringInput || 'Not set'}}
 </div>
