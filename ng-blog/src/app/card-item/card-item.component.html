@@ -5,9 +5,22 @@
 
     <p class="card-text">{{post.content}}</p>
 
-    <button class="btn btn-outline-primary"
+    <button type="button"
+            class="btn btn-outline-primary mr-2"
             (click)="markAsFavorite()">
       Mark as Favorite
+    </button>
+
+    <button type="button"
+            class="btn btn-outline-success mr-2"
+            (click)="onEdit()">
+      Edit
+    </button>
+
+    <button type="button"
+            class="btn btn-outline-danger"
+            (click)="postDeleted.emit(post.id)">
+      Delete
     </button>
   </div>
 </div>

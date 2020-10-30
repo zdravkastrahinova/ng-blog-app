@@ -11,6 +11,8 @@ export class CardItemComponent implements OnInit, OnChanges {
   @Input() post: Post;
 
   @Output() postSelected = new EventEmitter<Post>();
+  @Output() postSelectedForEdit = new EventEmitter<Post>();
+  @Output() postDeleted = new EventEmitter<number>();
 
   constructor() {
     console.log('constructor');
@@ -28,5 +30,9 @@ export class CardItemComponent implements OnInit, OnChanges {
 
   markAsFavorite(): void {
     this.postSelected.emit(this.post);
+  }
+
+  onEdit(): void {
+    this.postSelectedForEdit.emit(this.post);
   }
 }

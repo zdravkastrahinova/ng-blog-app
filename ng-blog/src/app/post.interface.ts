@@ -4,4 +4,5 @@ export interface Post {
   content: string;
   author: string;
   publishDate: string;
+  category: string;
 }

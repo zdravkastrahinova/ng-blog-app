@@ -14,6 +14,7 @@ import { TableListComponent } from './table-list/table-list.component';
 import { PostReactiveFormComponent } from './post-forms/post-reactive-form/post-reactive-form.component';
 import { CardListComponent } from './card-list/card-list.component';
 import { FieldErrorMessageComponent } from './field-error-message/field-error-message.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FieldErrorMessageComponent } from './field-error-message/field-error-me
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
