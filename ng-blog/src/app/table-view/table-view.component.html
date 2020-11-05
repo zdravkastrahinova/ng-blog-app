@@ -5,15 +5,29 @@
     <th scope="col">Title</th>
     <th scope="col">Author</th>
     <th scope="col">Publish Date</th>
+    <th scope="col">Actions</th>
   </tr>
   </thead>
 
   <tbody>
-    <tr *ngFor="let post of posts">
-      <td>{{post.id}}</td>
-      <td>{{post.title}}</td>
-      <td>{{post.author}}</td>
-      <td>{{post.publishDate}}</td>
-    </tr>
+  <tr *ngFor="let post of posts">
+    <td>{{post.id}}</td>
+    <td>{{post.title}}</td>
+    <td>{{post.author}}</td>
+    <td>{{post.publishDate}}</td>
+    <td>
+      <button type="button"
+              class="btn btn-link"
+              (click)="onEdit(post.id)">
+        Edit
+      </button>
+
+      <button type="button"
+              class="btn btn-link"
+              (click)="postDeleted.emit(post.id)">
+        Delete
+      </button>
+    </td>
+  </tr>
   </tbody>
 </table>

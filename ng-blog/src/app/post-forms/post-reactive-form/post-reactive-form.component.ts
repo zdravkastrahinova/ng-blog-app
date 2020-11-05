@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Post} from '../../post.interface';
 
@@ -7,7 +7,9 @@ import {Post} from '../../post.interface';
   templateUrl: './post-reactive-form.component.html',
   styleUrls: ['./post-reactive-form.component.scss']
 })
-export class PostReactiveFormComponent implements OnInit {
+export class PostReactiveFormComponent implements OnInit, OnChanges {
+
+  @Input() post: Post;
 
   @Output() postSubmitted = new EventEmitter<Post>();
 
@@ -17,9 +19,18 @@ export class PostReactiveFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(5)]],
-      content: ['', [Validators.required]]
+      id: this.post.id,
+      title: [this.post.title, [Validators.required, Validators.minLength(5)]],
+      content: [this.post.content, [Validators.required]]
     });
+  }
+
+  ngOnChanges(): void {
+    if (this.formGroup) {
+      this.formGroup.get('id').setValue(this.post.id);
+      this.formGroup.get('title').setValue(this.post.title);
+      this.formGroup.get('content').setValue(this.post.content);
+    }
   }
 
   onSubmit(): void {
@@ -28,7 +39,8 @@ export class PostReactiveFormComponent implements OnInit {
     const post: Post = {
       ...this.formGroup.value,
       author: 'Z. Strahinova',
-      publishDate: 'Oct 23, 2020'
+      publishDate: 'Oct 30, 2020',
+      category: 'modern'
     };
 
     this.postSubmitted.emit(post);
