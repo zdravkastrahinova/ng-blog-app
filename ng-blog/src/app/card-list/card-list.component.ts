@@ -12,50 +12,14 @@ import {map, takeUntil} from 'rxjs/operators';
 export class CardListComponent implements OnInit {
 
   posts: Post[];
-  selectedPost: Post;
 
   destroy$ = new Subject<boolean>();
 
   constructor(private postsService: PostsService) {
-    this.selectedPost = {
-      title: '',
-      content: '',
-      author: '',
-      publishDate: '',
-      category: ''
-    };
   }
 
   ngOnInit(): void {
     this.getContent();
-  }
-
-  onPostSubmit(post: Post): void {
-    if (!post.id) {
-      // create
-      this.postsService.createPost({...post}).pipe(
-        takeUntil(this.destroy$)
-      ).subscribe(() => {
-        this.getContent();
-      }, (error) => {
-        console.log(error);
-      });
-
-      return;
-    }
-
-    // update
-    this.postsService.updatePost(post).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.getContent();
-    }, (error) => {
-      console.log(error);
-    });
-  }
-
-  onPostSelect(post: Post): void {
-    this.selectedPost = post;
   }
 
   onPostDelete(postId: number): void {

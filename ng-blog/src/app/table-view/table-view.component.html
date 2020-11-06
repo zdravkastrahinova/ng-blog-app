@@ -16,11 +16,11 @@
     <td>{{post.author}}</td>
     <td>{{post.publishDate}}</td>
     <td>
-      <button type="button"
-              class="btn btn-link"
-              (click)="onEdit(post.id)">
+
+      <a class="btn btn-link"
+         [routerLink]="['/ancient-wonders', 'edit', post.id]">
         Edit
-      </button>
+      </a>
 
       <button type="button"
               class="btn btn-link"

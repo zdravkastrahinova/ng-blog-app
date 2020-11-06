@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Post} from '../post.interface';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Post } from '../post.interface';
 
 @Component({
   selector: 'app-card-item',
@@ -11,7 +11,6 @@ export class CardItemComponent implements OnInit, OnChanges {
   @Input() post: Post;
 
   @Output() postSelected = new EventEmitter<Post>();
-  @Output() postSelectedForEdit = new EventEmitter<Post>();
   @Output() postDeleted = new EventEmitter<number>();
 
   constructor() {
@@ -30,9 +29,5 @@ export class CardItemComponent implements OnInit, OnChanges {
 
   markAsFavorite(): void {
     this.postSelected.emit(this.post);
-  }
-
-  onEdit(): void {
-    this.postSelectedForEdit.emit(this.post);
   }
 }

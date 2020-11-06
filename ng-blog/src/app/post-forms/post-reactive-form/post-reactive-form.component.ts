@@ -1,41 +1,58 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Post} from '../../post.interface';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Post } from '../../post.interface';
+import { PostsService } from '../../posts.service';
+import { take, takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-post-reactive-form',
   templateUrl: './post-reactive-form.component.html',
   styleUrls: ['./post-reactive-form.component.scss']
 })
-export class PostReactiveFormComponent implements OnInit, OnChanges {
-
-  @Input() post: Post;
+export class PostReactiveFormComponent implements OnInit, OnDestroy {
 
   @Output() postSubmitted = new EventEmitter<Post>();
 
+  post: Post;
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  destroy$ = new Subject<boolean>();
 
-  ngOnInit(): void {
-    this.formGroup = this.fb.group({
-      id: this.post.id,
-      title: [this.post.title, [Validators.required, Validators.minLength(5)]],
-      content: [this.post.content, [Validators.required]]
-    });
+  constructor(private fb: FormBuilder,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private postsService: PostsService) {
+    this.post = {
+      title: '',
+      content: '',
+      publishDate: '',
+      author: '',
+      category: ''
+    };
   }
 
-  ngOnChanges(): void {
-    if (this.formGroup) {
-      this.formGroup.get('id').setValue(this.post.id);
-      this.formGroup.get('title').setValue(this.post.title);
-      this.formGroup.get('content').setValue(this.post.content);
-    }
+  ngOnInit(): void {
+    this.activatedRoute.params.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((params) => {
+      const id = params.id;
+
+      if (id) {
+        this.getPost(id);
+      }
+    });
+
+    this.buildForm();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   onSubmit(): void {
-    console.log(this.formGroup);
-
     const post: Post = {
       ...this.formGroup.value,
       author: 'Z. Strahinova',
@@ -43,6 +60,44 @@ export class PostReactiveFormComponent implements OnInit, OnChanges {
       category: 'modern'
     };
 
-    this.postSubmitted.emit(post);
+    if (!post.id) {
+      // create
+      this.postsService.createPost({...post}).pipe(
+        take(1)
+      ).subscribe(() => {
+        // redirect
+        this.router.navigate(['/new-wonders']);
+      }, (error) => {
+        console.log(error);
+      });
+
+      return;
+    }
+
+    this.postsService.updatePost(post).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.router.navigate(['/new-wonders']);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  buildForm(): void {
+    this.formGroup = this.fb.group({
+      id: this.post.id,
+      title: [this.post.title, [Validators.required, Validators.minLength(5)]],
+      content: [this.post.content, [Validators.required]]
+    });
+  }
+
+  private getPost(id: number): void {
+    this.postsService.getPost(id).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((response) => {
+      this.post = response;
+
+      this.buildForm();
+    });
   }
 }

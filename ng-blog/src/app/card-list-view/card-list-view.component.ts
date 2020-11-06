@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Post} from '../post.interface';
 
 @Component({
@@ -10,7 +10,6 @@ export class CardListViewComponent {
 
   @Input() posts: Post[];
 
-  @Output() postSelected = new EventEmitter<Post>();
   @Output() postDeleted = new EventEmitter<number>();
 
   selectedPost: Post;
@@ -20,11 +19,5 @@ export class CardListViewComponent {
 
   onPostSelected(post: Post): void {
     this.selectedPost = post;
-  }
-
-  onPostEdit(post: Post): void {
-    this.postSelected.emit({
-      ...post
-    });
   }
 }

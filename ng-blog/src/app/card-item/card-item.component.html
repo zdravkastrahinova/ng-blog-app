@@ -11,11 +11,10 @@
       Mark as Favorite
     </button>
 
-    <button type="button"
-            class="btn btn-outline-success mr-2"
-            (click)="onEdit()">
+    <a class="btn btn-outline-success mr-2"
+       [routerLink]="['/new-wonders', 'edit', post.id]">
       Edit
-    </button>
+    </a>
 
     <button type="button"
             class="btn btn-outline-danger"
