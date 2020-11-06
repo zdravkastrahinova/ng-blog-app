@@ -15,6 +15,34 @@ import { PostReactiveFormComponent } from './post-forms/post-reactive-form/post-
 import { CardListComponent } from './card-list/card-list.component';
 import { FieldErrorMessageComponent } from './field-error-message/field-error-message.component';
 import {HttpClientModule} from '@angular/common/http';
+import { Route, RouterModule } from '@angular/router';
+
+const routes: Route[] = [
+  {
+    path: 'ancient-wonders',
+    component: TableListComponent
+  },
+  {
+    path: 'ancient-wonders/create',
+    component: PostTdFormComponent
+  },
+  {
+    path: 'ancient-wonders/edit/:id',
+    component: PostTdFormComponent
+  },
+  {
+    path: 'new-wonders',
+    component: CardListComponent
+  },
+  {
+    path: 'new-wonders/create',
+    component: PostReactiveFormComponent
+  },
+  {
+    path: 'new-wonders/edit/:id',
+    component: PostReactiveFormComponent
+  }
+];
 
 @NgModule({
   declarations: [
@@ -35,7 +63,8 @@ import {HttpClientModule} from '@angular/common/http';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

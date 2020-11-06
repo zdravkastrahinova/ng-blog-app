@@ -1,3 +1,7 @@
+<h3>
+  {{!post.id ? 'Create new' : 'Update'}}
+</h3>
+
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label for="title">Title</label>
@@ -27,7 +31,10 @@
     <button type="submit"
             class="btn btn-outline-dark"
             [disabled]="formGroup.invalid">
-      Add
+      {{!post.id ? 'Add' : 'Update'}}
     </button>
+
+    <a routerLink="/new-wonders"
+       class="btn btn-default">Cancel</a>
   </div>
 </form>

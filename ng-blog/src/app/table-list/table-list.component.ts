@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Post} from '../post.interface';
 import {PostsService} from '../posts.service';
-import {Observable, Subject, Subscription} from 'rxjs';
-import {map, take, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {map, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-table-list',
@@ -35,40 +35,6 @@ export class TableListComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  onPostSubmit(post: Post): void {
-    if (!post.id) {
-      // create
-      const newPost = {
-        ...post,
-        author: 'Z. Strahinova',
-        publishDate: 'Oct 30, 2020',
-        category: 'ancient'
-      };
-
-      this.postsService.createPost(newPost).pipe(
-        takeUntil(this.destroy$)
-      ).subscribe(() => {
-        this.getContent();
-      }, (error) => {
-        console.log(error);
-      });
-
-      return;
-    }
-
-    // update
-    this.postsService.updatePost(post).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.getContent();
-    }, (error) => {
-      console.log(error);
-    });
-  }
-
-  onPostSelect(post: Post): void {
-    this.selectedPost = post;
-  }
 
   onPostDelete(postId: number): void {
     this.postsService.deletePost(postId).pipe(
