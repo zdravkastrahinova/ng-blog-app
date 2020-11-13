@@ -1,28 +1,37 @@
 import {AfterViewInit, Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  constructor() {
+  hasLoggedIn: boolean;
+
+  destroy$ = new Subject<boolean>();
+
+  constructor(private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
-  }
-
-  ngOnChanges(): void {
-    console.log('ngOnChanges');
-  }
-
-  ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
+    this.authService.getHasLoggedIn().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(hasLogged => this.hasLoggedIn = hasLogged);
   }
 
   ngOnDestroy(): void {
-    console.log('ngOnDestroy');
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['login']);
   }
 }
