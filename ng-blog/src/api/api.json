@@ -1,4 +1,19 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "username": "admin",
+      "password": "qwerty"
+    },
+    {
+      "name": "Z. Strahinova",
+      "username": "qwerty",
+      "password": "12345",
+      "rePassword": "12345",
+      "id": 2
+    }
+  ],
   "posts": [
     {
       "id": 1,
