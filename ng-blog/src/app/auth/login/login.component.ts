@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       // set logged user
       this.authService.setLoggedUser(response);
 
-      this.router.navigate(['ancient-wonders']);
+      this.router.navigate(['main/ancient-wonders']);
     });
   }
 
